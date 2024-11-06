@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -23,11 +24,30 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const navLinks = [
+    { name: "Overview", url: "/" },
+    { name: "Africa", url: "/afr" },
+    { name: "Americas", url: "/ame" },
+    { name: "Asia", url: "/asi" },
+    { name: "Europe", url: "/eur" },
+    { name: "Oceania", url: "/oce" },
+  ];
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <nav className="p-4">
+          <ul className="flex gap-4">
+            {navLinks.map((nav) => (
+              <li key={nav.url} className="list-none">
+                <Link href={nav.url} className="underline">{nav.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         {children}
       </body>
     </html>
