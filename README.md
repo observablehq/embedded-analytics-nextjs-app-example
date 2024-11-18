@@ -1,3 +1,5 @@
+# Framework Embedded Analtycs in Next.js
+
 This repository is an example of importing a JS module from a [Observable Cloud](https://observablehq.com/documentation/data-apps/) data app using signed URLs and embedding it in a [Next.js](https://nextjs.org) site using Next.js's App router. The Observable Cloud data app provides charts of the number of medals won by countries in the 2024 Olympic Games, optionally broken down by continent.
 
 ## Tour
