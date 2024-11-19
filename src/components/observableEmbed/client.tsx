@@ -16,10 +16,10 @@ export const ObservableEmbedClient: React.FC<ObservableEmbedProps> = ({
     (async () => {
       const target = ref.current;
       if (!target) return;
+      while (target.firstChild) target.removeChild(target.firstChild);
       const mod = await import(/* webpackIgnore: true */ module);
       const component = mod[importName];
       const element = component instanceof Function ? await component() : component;
-      target.innerHTML = "";
       target.append(element);
     })();
   }, [importName, module]);

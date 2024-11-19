@@ -19,23 +19,21 @@ export const ObservableEmbed: React.FC<ObservableEmbedProps> = async ({ module, 
   return <ObservableEmbedClient module={signedUrl.href} importName={importName} />;
 }
 
-async function signUrl(url: string | URL): Promise<URL> {
-  if (typeof url === "string") {
-    url = new URL(url);
-  }
+async function signUrl(url: string): Promise<URL> {
+  const parsedUrl = new URL(url);
   if (!privateKey) {
     console.warn("No private key available for signing");
-    return url;
+    return parsedUrl;
   }
   const now = Date.now();
   const notBefore = now - (now % SIGNATURE_ALIGN_MS);
   const notAfter = notBefore + SIGNATURE_VALIDITY_MS;
-  const token = await new SignJWT({"urn:observablehq:path": url.pathname})
+  const token = await new SignJWT({"urn:observablehq:path": parsedUrl.pathname})
     .setProtectedHeader({alg: "EdDSA"})
     .setSubject("nextjs-example")
     .setNotBefore(notBefore / 1000)
     .setExpirationTime(notAfter / 1000)
     .sign(privateKey);
-  url.searchParams.set("token", token);
-  return url;
+  parsedUrl.searchParams.set("token", token);
+  return parsedUrl;
 }
