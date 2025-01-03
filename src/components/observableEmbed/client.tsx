@@ -14,12 +14,13 @@ export const ObservableEmbedClient: React.FC<ObservableEmbedProps> = ({
 
   useEffect(() => {
     (async () => {
-      const target = ref.current;
-      if (!target) return;
-      while (target.firstChild) target.removeChild(target.firstChild);
       const mod = await import(/* webpackIgnore: true */ module);
       const component = mod[importName];
       const element = component instanceof Function ? await component() : component;
+
+      const target = ref.current;
+      if (!target) return;
+      while (target.firstChild) target.removeChild(target.firstChild);
       target.append(element);
     })();
   }, [importName, module]);
